@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+
+{% block bcss %}
+    <style>
+
+        h1{
+            color: red;
+        }
+        body {
+            padding: 1.5rem 0;
+            font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+            overflow: auto;
+            height: 100%;
+            width: 100%;
+            padding-bottom: 3rem;
+            position: fixed;
+            font-size: 0.7rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <form action="/login/" method="post">
+    用户名：<input type="text" id="name" name="name"/><br/>
+    密码：<input type="password" name="password" /><br/>
+    验证码：<img src="/yzcode/"><input name="code" style="width: 40%;"maxlength="4"><br/>
+      <h1> {{ msg }}</h1>
+        <button >登录</button>
+    </form>
+{% endblock %}

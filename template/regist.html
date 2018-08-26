@@ -1,0 +1,80 @@
+{% extends 'main.html' %}
+
+
+{% block bcss %}
+    <style>
+        .labgreen {
+            color: green;
+        }
+
+        .labred {
+            color: red;
+        }
+
+        body {
+            padding: 1.5rem 0;
+            font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+            overflow: auto;
+            height: 100%;
+            width: 100%;
+            padding-bottom: 3rem;
+            position: fixed;
+            font-size: 0.7rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <form action="/regist/" method="post">
+    用户名：<input type="text" id="name" name="name"/><label id="namelabel"></label><br/>
+    密码：<input type="password" name="password" /><br/>
+    重复密码：<br>
+    爱好：<br>
+
+        <button type="button" onclick="sub()">注册</button>
+    </form>
+{% endblock %}
+
+{% block bjs %}
+    <script>
+
+        function sub(){
+            labhtml = $('#namelabel').html();
+            if('用户名可以使用' == labhtml){
+
+                $('form').submit();
+            }
+        }
+        $(document).ready(function (){
+
+            $('#name').blur(function () {
+                var tname = $('#name').val();
+                if (tname != '' && tname.length > 6) {
+                    $.ajax({
+                        url: '/regist_jyname/',
+                        method: 'post',
+                        data: {'name': tname},
+                        success: function (result) {
+                            if (result.result == '0000') {
+                                $('#namelabel').html('用户名可以使用');
+                                $('#namelabel').removeClass('labred').addClass('labgreen');
+
+                            } else {
+
+                                $('#namelabel').html('用户名已存在');
+                                $('#namelabel').removeClass('labgreen').addClass('labred');
+
+                            }
+                        }
+
+
+                    })
+                } else {
+                    $('#namelabel').html('请输入大于6位的用户名');
+                }
+
+            })
+        })
+
+    </script>
+{% endblock %}

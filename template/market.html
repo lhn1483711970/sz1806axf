@@ -1,0 +1,108 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block bcss %}
+    <link rel="stylesheet" href="{% static 'css/market.css' %}" type="text/css"  />
+{% endblock %}
+
+{% block body %}
+    <div id="market">
+        <aside>
+            <ul>
+                {% for foodtype in foodtypes  %}
+                    <li>
+                        {% ifequal  foodtype.typeid typeid %}
+                            <span class="yellowSlide"></span>
+                        {% endifequal %}
+                        <a href="/market/?typeid={{ foodtype.typeid }}">{{ foodtype.typename }} </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+        <section>
+            <nav>
+                <ul>
+                    <li>
+                        <span>全部类型
+                            <span id="alltypespan" class="glyphicon glyphicon-chevron-down"></span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>
+                            综合排序
+                            <label id="zhsortspan" class="glyphicon glyphicon-chevron-down"></label>
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+            <menu>
+                <ul>
+                    {% for goods in goodlist %}
+                        <li>
+                            <a >
+                                <img src="{{ goods.productimg}}" />
+                                <article class="shoppingInfo">
+                                    <h6>{{ goods.productlongname }}</h6>
+                                    <p class="detailTag">
+                                        <span>精选</span>
+                                        <span></span>
+                                    </p>
+                                    <span class="unit">{{ goods.specifics }}</span>
+                                    <p class="price">
+                                        <span>{{ goods.price }}</span>
+                                        <s>{{ goods.marketprice }}</s>
+                                    </p>
+                                </article>
+                            </a>
+                            <section>
+                                <button value="{{ goods.id }}" class="subShopping">-</button>
+                                <span id="{{ goods.id }}">0</span>
+                                <button class="addShopping" value="{{ goods.id }}">+</button>
+                            </section>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+                {# 所有类型#}
+                <div id="alltypes" style="display: none" >
+                    <div>
+                        {% for foo in flist %}
+                            <a href="/market/?typeid={{ typeid }}&childid={{ foo.1 }}&sort={{ sort }}">
+                                <span>{{ foo.0 }}</span>
+                            </a>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                {# 综合排序#}
+                <div id="zhsorts" style="display: none">
+                    <div>
+                        <a href="/market/?typeid={{ typeid }}&childid={{ childid }}&sort=0">
+                            <span>综合排序</span>
+                        </a>
+
+                        <a href="/market/?typeid={{ typeid }}&childid={{ childid }}&sort=1">
+                            <span>销量排序</span>
+                        </a>
+
+                        <a href="/market/?typeid={{ typeid }}&childid={{ childid }}&sort=2">
+                            <span>价格最低</span>
+                        </a>
+
+                        <a href="/market/?typeid={{ typeid }}&childid={{ childid }}&sort=3">
+                            <span>价格最高</span>
+                        </a>
+                    </div>
+
+                </div>
+            </menu>
+
+        </section>
+
+    </div>
+{% endblock %}
+{% block bjs %}
+    <script src="{% static 'js/market.js' %}" type="text/javascript"></script>
+{% endblock %}
+
